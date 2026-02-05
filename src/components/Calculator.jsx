@@ -90,7 +90,7 @@ export default function Calculator() {
                 <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-4">
                     {/* Detailed Breakdown */}
                     <div className="space-y-3">
-                        {applyIva && <ResultRow label="IVA (13%)" value={results.iva} />}
+                        {applyIva && <ResultRow label="IVA (13%)" value={results.base} />}
                         <ResultRow label="ISR (10%)" value={results.renta} />
                         <div className="h-px bg-slate-100 dark:bg-slate-800 my-2" />
                         <ResultRow label="Devengado" value={results.totalInvoice} type="highlight" />
