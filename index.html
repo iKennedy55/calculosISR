@@ -1,13 +1,72 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>renta-app</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora Inversa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="top">
+    <div>
+      <div class="eyebrow">Herramienta Fiscal</div>
+      <h1>Calculadora Inversa</h1>
+    </div>
+  </div>
+
+  <main>
+    <div class="card">
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Monto Líquido Deseado</div>
+          <div class="panel-sub">Ingrese el monto final que desea recibir</div>
+        </div>
+      </div>
+
+      <input type="number" id="amount-input" class="search-bar"
+        style="width: 100%; max-width: 100%; font-size: 24px; padding: 16px; box-sizing: border-box;"
+        placeholder="$ 0.00" />
+
+      <div class="actions" style="margin-top: 24px; margin-bottom: 32px; display: flex;">
+        <button id="btn-con-iva" style="flex: 1;">Con IVA</button>
+        <button id="btn-sin-iva" class="ghost" style="flex: 1;">Sin IVA</button>
+      </div>
+
+      <div class="other">
+        <div class="label">Desglose Fiscal</div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric" id="container-iva">
+          <div class="label">IVA (13%)</div>
+          <div class="value" id="val-iva">$0.00</div>
+        </div>
+        <div class="metric">
+          <div class="label">ISR (10%)</div>
+          <div class="value" id="val-renta" style="color: var(--error);">-$0.00</div>
+        </div>
+        <div class="metric">
+          <div class="label">Devengado</div>
+          <div class="value" id="val-total">$0.00</div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top: 32px; padding: 20px; background-color: var(--card-hover);">
+        <div class="panel-head" style="margin-bottom: 0;">
+          <div class="panel-title">Fondo a Recibir</div>
+          <div class="value" id="val-liquid" style="font-size: 32px; font-weight: 700; color: var(--ok);">$0.00</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="other" style="text-align: center; margin-top: 48px; border: none;">
+    <div class="label">Normativa El Salvador • ISR 10% • IVA 13%</div>
+  </footer>
+
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+
 </html>

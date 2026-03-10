@@ -1,0 +1,14 @@
+:root {
+    --ink: #e0e0e0;
+    --muted: #888888;
+    --border: #1a1a1a;
+    --bg: #000000;
+    --card: #000000;
+    --card-hover: #080808;
+    --glass-bg: #000000;
+    --ok: #00ff5b;
+    --warn: #ffea00;
+    --error: #ff003c;
+    --accent: #ffffff;
+    --accent-glow: rgba(255, 225, 255, 0.45);
+}

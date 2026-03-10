@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+body {
+    margin: 0;
+    font-family: 'Sora', sans-serif;
+    color: var(--ink);
+    padding: 32px 36px 48px;
+    min-height: 100vh;
+    background: var(--bg);
+}
+
+body>*:not(.toast) {
+    width: min(1200px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    margin: 0 0 4px;
+    font-weight: 700;
+    font-size: clamp(28px, 3.5vw, 42px);
+    color: #fff;
+}
