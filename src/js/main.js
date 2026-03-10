@@ -1,4 +1,5 @@
-import { calculateTaxes, formatCurrency } from './modules/calculator.js';
+import { calculateTaxes } from './modules/calculator.js';
+import { formatCurrency } from './utils/formatters.js';
 import '../css/main.css';
 
 document.addEventListener('DOMContentLoaded', () => {
