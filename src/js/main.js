@@ -1,5 +1,5 @@
 import { calculateTaxes } from './modules/calculator.js';
-import { formatCurrency } from './utils/formatters.js';
+import { formatCurrency, applyCurrencyMask, parseCurrencyMask } from './utils/formatters.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const amountInput = document.getElementById('amount-input');
@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let applyIva = true;
 
     function updateUI() {
-        const amount = parseFloat(amountInput.value) || 0;
+        // Parser for the custom masked input
+        const amount = parseCurrencyMask(amountInput.value);
         const results = calculateTaxes(amount, applyIva);
 
         if (applyIva) {
@@ -34,7 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
         liquidValue.textContent = formatCurrency(results.liquid);
     }
 
-    amountInput.addEventListener('input', updateUI);
+    function handleInput(e) {
+        // Update the input mask formatting
+        const masked = applyCurrencyMask(e.target.value);
+        e.target.value = masked;
+        updateUI();
+    }
+
+    amountInput.addEventListener('input', handleInput);
+
+    amountInput.addEventListener('blur', (e) => {
+        const amount = parseCurrencyMask(e.target.value);
+        if (amount > 0) {
+            e.target.value = formatCurrency(amount);
+        } else {
+            e.target.value = '';
+        }
+        updateUI();
+    });
 
     btnConIva.addEventListener('click', () => {
         applyIva = true;
