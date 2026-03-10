@@ -1,62 +1,73 @@
 (function () {
     'use strict';
 
-    // -- formatters --
+    var TAX_RATES = {
+        ISR: 0.10,
+        IVA: 0.13
+    };
 
     function formatCurrency(value) {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
     }
 
     function parseNumericInput(value) {
-        const cleaned = value.replace(/[^0-9.]/g, '');
-        const parts = cleaned.split('.');
-        const sanitized = parts.length > 2
-            ? parts[0] + '.' + parts.slice(1).join('')
-            : cleaned;
-
-        const num = parseFloat(sanitized);
+        var cleaned = value.replace(/[^0-9.]/g, '');
+        var parts = cleaned.split('.');
+        if (parts.length > 2) {
+            cleaned = parts[0] + '.' + parts.slice(1).join('');
+        }
+        var num = parseFloat(cleaned);
         return isNaN(num) ? 0 : num;
     }
-
-    // -- calculator --
 
     function calculateTaxes(amount, applyIva) {
         if (isNaN(amount) || amount <= 0) {
             return { base: 0, iva: 0, renta: 0, totalInvoice: 0, liquid: 0 };
         }
 
-        const base = applyIva ? amount / 1.03 : amount / 0.90;
-        const iva = applyIva ? base * 0.13 : 0;
-        const renta = base * 0.10;
-        const totalInvoice = base + iva;
-        const liquid = totalInvoice - renta;
+        var divisor = applyIva ? (1 + TAX_RATES.IVA - TAX_RATES.ISR) : (1 - TAX_RATES.ISR);
+        var base = amount / divisor;
+        var iva = applyIva ? base * TAX_RATES.IVA : 0;
+        var renta = base * TAX_RATES.ISR;
+        var totalInvoice = base + iva;
+        var liquid = totalInvoice - renta;
 
-        return { base, iva, renta, totalInvoice, liquid };
+        return { base: base, iva: iva, renta: renta, totalInvoice: totalInvoice, liquid: liquid };
     }
 
-    // -- app --
+    function sanitizeDecimalInput(raw) {
+        var cleaned = raw.replace(/[^0-9.]/g, '');
+        var parts = cleaned.split('.');
+        if (parts.length > 2) {
+            cleaned = parts[0] + '.' + parts.slice(1).join('');
+        }
+        if (parts.length === 2 && parts[1].length > 2) {
+            cleaned = parts[0] + '.' + parts[1].slice(0, 2);
+        }
+        return cleaned;
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
-        const amountInput = document.getElementById('amount-input');
-        const btnConIva = document.getElementById('btn-con-iva');
-        const btnSinIva = document.getElementById('btn-sin-iva');
+        var amountInput = document.getElementById('amount-input');
+        var btnConIva = document.getElementById('btn-con-iva');
+        var btnSinIva = document.getElementById('btn-sin-iva');
 
-        const ivaValue = document.getElementById('val-iva');
-        const ivaContainer = document.getElementById('container-iva');
-        const rentaValue = document.getElementById('val-renta');
-        const totalValue = document.getElementById('val-total');
-        const liquidValue = document.getElementById('val-liquid');
+        var ivaValue = document.getElementById('val-iva');
+        var ivaContainer = document.getElementById('container-iva');
+        var rentaValue = document.getElementById('val-renta');
+        var totalValue = document.getElementById('val-total');
+        var liquidValue = document.getElementById('val-liquid');
 
-        let applyIva = true;
+        var applyIva = true;
 
         function updateUI() {
-            const amount = parseNumericInput(amountInput.value);
-            const results = calculateTaxes(amount, applyIva);
+            var amount = parseNumericInput(amountInput.value);
+            var results = calculateTaxes(amount, applyIva);
 
             if (applyIva) {
                 btnConIva.classList.remove('ghost');
                 btnSinIva.classList.add('ghost');
-                ivaContainer.style.display = 'block';
+                ivaContainer.style.display = '';
                 ivaValue.textContent = formatCurrency(results.iva);
             } else {
                 btnConIva.classList.add('ghost');
@@ -69,30 +80,19 @@
             liquidValue.textContent = formatCurrency(results.liquid);
         }
 
-        function sanitizeInput(e) {
-            const raw = e.target.value;
-            let cleaned = raw.replace(/[^0-9.]/g, '');
-            const parts = cleaned.split('.');
-            if (parts.length > 2) {
-                cleaned = parts[0] + '.' + parts.slice(1).join('');
-            }
-            if (parts.length === 2 && parts[1].length > 2) {
-                cleaned = parts[0] + '.' + parts[1].slice(0, 2);
-            }
-            e.target.value = cleaned;
+        amountInput.addEventListener('input', function (e) {
+            e.target.value = sanitizeDecimalInput(e.target.value);
             updateUI();
-        }
-
-        amountInput.addEventListener('input', sanitizeInput);
+        });
 
         amountInput.addEventListener('blur', function (e) {
-            const amount = parseNumericInput(e.target.value);
+            var amount = parseNumericInput(e.target.value);
             e.target.value = amount > 0 ? formatCurrency(amount) : '';
             updateUI();
         });
 
         amountInput.addEventListener('focus', function (e) {
-            const amount = parseNumericInput(e.target.value);
+            var amount = parseNumericInput(e.target.value);
             e.target.value = amount > 0 ? amount.toString() : '';
         });
 
