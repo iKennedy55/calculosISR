@@ -202,6 +202,15 @@ button.ghost:hover {
     letter-spacing: 0.1em;
 }
 
+.animated-value {
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.animated-value.value-updating {
+    transform: scale(0.95);
+    opacity: 0.4;
+}
+
 @media (max-width: 900px) {
     body {
         padding: 16px;

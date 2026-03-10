@@ -6,6 +6,8 @@
         IVA: 0.13
     };
 
+    var MAX_AMOUNT = 999999.99;
+
     function formatCurrency(value) {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
     }
@@ -44,7 +46,24 @@
         if (parts.length === 2 && parts[1].length > 2) {
             cleaned = parts[0] + '.' + parts[1].slice(0, 2);
         }
+
+        // cap at max
+        var num = parseFloat(cleaned);
+        if (!isNaN(num) && num > MAX_AMOUNT) {
+            cleaned = MAX_AMOUNT.toFixed(parts.length === 2 ? Math.min(parts[1].length, 2) : 0);
+        }
+
         return cleaned;
+    }
+
+    // smooth number transition
+    function animateValue(element, newText) {
+        if (element.textContent === newText) return;
+        element.classList.add('value-updating');
+        element.textContent = newText;
+        // force reflow then remove class to retrigger animation
+        void element.offsetWidth;
+        element.classList.remove('value-updating');
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -68,16 +87,16 @@
                 btnConIva.classList.remove('ghost');
                 btnSinIva.classList.add('ghost');
                 ivaContainer.style.display = '';
-                ivaValue.textContent = formatCurrency(results.iva);
+                animateValue(ivaValue, formatCurrency(results.iva));
             } else {
                 btnConIva.classList.add('ghost');
                 btnSinIva.classList.remove('ghost');
                 ivaContainer.style.display = 'none';
             }
 
-            rentaValue.textContent = '-' + formatCurrency(results.renta);
-            totalValue.textContent = formatCurrency(results.totalInvoice);
-            liquidValue.textContent = formatCurrency(results.liquid);
+            animateValue(rentaValue, '-' + formatCurrency(results.renta));
+            animateValue(totalValue, formatCurrency(results.totalInvoice));
+            animateValue(liquidValue, formatCurrency(results.liquid));
         }
 
         amountInput.addEventListener('input', function (e) {

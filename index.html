@@ -4,9 +4,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora Inversa</title>
+  <title>Calculadora Inversa ISR</title>
+  <meta name="description"
+    content="Calcula el monto bruto a facturar a partir del monto líquido deseado, aplicando ISR e IVA según normativa de El Salvador." />
+
+  <meta property="og:title" content="Calculadora Inversa ISR" />
+  <meta property="og:description"
+    content="Herramienta fiscal para calcular retenciones de ISR (10%) e IVA (13%) de forma inversa." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_SV" />
+
+  <link rel="icon" type="image/svg+xml" href="./assets/icons/favicon.svg" />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./src/css/main.css?v=3" />
+  <link rel="stylesheet" href="./src/css/main.css?v=4" />
 </head>
 
 <body>
@@ -40,22 +50,22 @@
       <div class="metrics">
         <div class="metric" id="container-iva">
           <div class="label">IVA (13%)</div>
-          <div class="value" id="val-iva">$0.00</div>
+          <div class="value animated-value" id="val-iva">$0.00</div>
         </div>
         <div class="metric">
           <div class="label">ISR (10%)</div>
-          <div class="value deduction" id="val-renta">-$0.00</div>
+          <div class="value deduction animated-value" id="val-renta">-$0.00</div>
         </div>
         <div class="metric">
           <div class="label">Devengado</div>
-          <div class="value" id="val-total">$0.00</div>
+          <div class="value animated-value" id="val-total">$0.00</div>
         </div>
       </div>
 
       <div class="result-panel">
         <div class="panel-head compact">
           <div class="panel-title">Fondo a Recibir</div>
-          <div class="value result-value" id="val-liquid">$0.00</div>
+          <div class="value result-value animated-value" id="val-liquid">$0.00</div>
         </div>
       </div>
     </div>
@@ -65,7 +75,7 @@
     <div class="label">Normativa El Salvador • ISR 10% • IVA 13%</div>
   </footer>
 
-  <script src="./src/js/main.js?v=5"></script>
+  <script src="./src/js/main.js?v=6"></script>
 </body>
 
 </html>
