@@ -13,7 +13,7 @@ body {
 }
 
 body>*:not(.toast) {
-    width: min(1200px, 100%);
+    width: min(540px, 100%);
     margin-left: auto;
     margin-right: auto;
 }
