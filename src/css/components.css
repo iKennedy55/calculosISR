@@ -33,6 +33,13 @@
     flex: 1;
 }
 
+.toggle-row button:not(.ghost) {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow);
+}
+
 button {
     border: 1px solid var(--border);
     background: var(--card);

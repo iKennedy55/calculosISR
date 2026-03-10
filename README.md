@@ -45,9 +45,3 @@ Abrir `index.html` directamente en el navegador. No requiere servidor local ni d
 | ISR      | 10%  |
 | IVA      | 13%  |
 
-## Notas
-
-- Compatible con protocolo `file://` (sin necesidad de servidor HTTP).
-- El input acepta decimales directamente (ej: `1500.50`).
-- Al salir del campo, el valor se formatea como moneda (`$1,500.50`).
-- Al volver a hacer clic, se muestra el valor numérico para edición.
