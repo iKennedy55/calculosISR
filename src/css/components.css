@@ -29,6 +29,11 @@
     margin-bottom: 32px;
 }
 
+.mode-row {
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
 .toggle-row button {
     flex: 1;
 }

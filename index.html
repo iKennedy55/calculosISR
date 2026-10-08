@@ -16,23 +16,28 @@
 
   <link rel="icon" type="image/svg+xml" href="./assets/icons/favicon.svg" />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./src/css/main.css?v=4" />
+  <link rel="stylesheet" href="./src/css/main.css?v=5" />
 </head>
 
 <body>
   <div class="top">
     <div>
       <div class="eyebrow">Herramienta Fiscal</div>
-      <h1>Calculadora Inversa</h1>
+      <h1 id="app-heading">Calculadora Inversa</h1>
     </div>
   </div>
 
   <main>
     <div class="card">
+      <div class="actions toggle-row mode-row">
+        <button id="btn-modo-inversa">Inversa</button>
+        <button id="btn-modo-normal" class="ghost">Normal</button>
+      </div>
+
       <div class="panel-head">
         <div>
-          <div class="panel-title">Monto Líquido Deseado</div>
-          <div class="panel-sub">Ingrese el monto final que desea recibir</div>
+          <div class="panel-title" id="input-title">Monto Líquido Deseado</div>
+          <div class="panel-sub" id="input-sub">Ingrese el monto final que desea recibir</div>
         </div>
       </div>
 
@@ -57,7 +62,7 @@
           <div class="value deduction animated-value" id="val-renta">-$0.00</div>
         </div>
         <div class="metric">
-          <div class="label">Devengado</div>
+          <div class="label" id="label-total">Devengado</div>
           <div class="value animated-value" id="val-total">$0.00</div>
         </div>
       </div>
@@ -75,7 +80,7 @@
     <div class="label">Normativa El Salvador • ISR 10% • IVA 13%</div>
   </footer>
 
-  <script src="./src/js/main.js?v=6"></script>
+  <script src="./src/js/main.js?v=9"></script>
 </body>
 
 </html>

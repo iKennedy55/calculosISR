@@ -6,6 +6,13 @@ Herramienta fiscal para calcular el monto bruto a facturar a partir del monto l�
 
 Dado un monto neto que se desea recibir, la calculadora determina cuánto se debe facturar para que, después de aplicar las retenciones fiscales, el monto recibido sea el deseado.
 
+## Modos
+
+- **Inversa** (por defecto): del monto líquido deseado al devengado a facturar.
+- **Normal**: del monto devengado (IVA incluido cuando aplica) al líquido a recibir, desglosando IVA y descontando ISR.
+
+Ambos modos son consistentes entre sí: el devengado que da la inversa, ingresado en la normal, devuelve el mismo líquido.
+
 ## Stack
 
 - HTML5
@@ -34,9 +41,10 @@ Renta/
 
 Abrir `index.html` directamente en el navegador. No requiere servidor local ni dependencias.
 
-1. Ingresar el monto líquido deseado.
-2. Seleccionar si aplica IVA o no.
-3. El desglose fiscal se calcula en tiempo real.
+1. Elegir el modo: Inversa o Normal.
+2. Ingresar el monto (líquido deseado o devengado, según el modo).
+3. Seleccionar si aplica IVA o no.
+4. El desglose fiscal se calcula en tiempo real.
 
 ## Tasas aplicadas
 

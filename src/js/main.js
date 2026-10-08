@@ -37,6 +37,37 @@
         return { base: base, iva: iva, renta: renta, totalInvoice: totalInvoice, liquid: liquid };
     }
 
+    // modo normal: del devengado (IVA incluido si aplica) al liquido
+    function calculateFromDevengado(amount, applyIva) {
+        if (isNaN(amount) || amount <= 0) {
+            return { base: 0, iva: 0, renta: 0, totalInvoice: 0, liquid: 0 };
+        }
+
+        var base = applyIva ? amount / (1 + TAX_RATES.IVA) : amount;
+        var iva = applyIva ? amount - base : 0;
+        var renta = base * TAX_RATES.ISR;
+        var liquid = amount - renta;
+
+        return { base: base, iva: iva, renta: renta, totalInvoice: amount, liquid: liquid };
+    }
+
+    var MODE_COPY = {
+        inverse: {
+            heading: 'Calculadora Inversa',
+            title: 'Monto Líquido Deseado',
+            sub: 'Ingrese el monto final que desea recibir',
+            subSinIva: 'Ingrese el monto final que desea recibir',
+            thirdLabel: 'Devengado'
+        },
+        normal: {
+            heading: 'Calculadora Normal',
+            title: 'Monto Devengado',
+            sub: 'Ingrese el monto devengado (IVA incluido)',
+            subSinIva: 'Ingrese el monto devengado',
+            thirdLabel: 'Base Imponible'
+        }
+    };
+
     function sanitizeDecimalInput(raw) {
         var cleaned = raw.replace(/[^0-9.]/g, '');
         var parts = cleaned.split('.');
@@ -77,11 +108,34 @@
         var totalValue = document.getElementById('val-total');
         var liquidValue = document.getElementById('val-liquid');
 
+        var btnModeInverse = document.getElementById('btn-modo-inversa');
+        var btnModeNormal = document.getElementById('btn-modo-normal');
+        var heading = document.getElementById('app-heading');
+        var inputTitle = document.getElementById('input-title');
+        var inputSub = document.getElementById('input-sub');
+        var totalLabel = document.getElementById('label-total');
+
         var applyIva = true;
+        var mode = 'inverse';
 
         function updateUI() {
             var amount = parseNumericInput(amountInput.value);
-            var results = calculateTaxes(amount, applyIva);
+            var isInverse = mode === 'inverse';
+            var results = isInverse ? calculateTaxes(amount, applyIva) : calculateFromDevengado(amount, applyIva);
+            var copy = MODE_COPY[mode];
+
+            if (isInverse) {
+                btnModeInverse.classList.remove('ghost');
+                btnModeNormal.classList.add('ghost');
+            } else {
+                btnModeInverse.classList.add('ghost');
+                btnModeNormal.classList.remove('ghost');
+            }
+
+            heading.textContent = copy.heading;
+            inputTitle.textContent = copy.title;
+            inputSub.textContent = applyIva ? copy.sub : copy.subSinIva;
+            totalLabel.textContent = copy.thirdLabel;
 
             if (applyIva) {
                 btnConIva.classList.remove('ghost');
@@ -95,7 +149,7 @@
             }
 
             animateValue(rentaValue, '-' + formatCurrency(results.renta));
-            animateValue(totalValue, formatCurrency(results.totalInvoice));
+            animateValue(totalValue, formatCurrency(isInverse ? results.totalInvoice : results.base));
             animateValue(liquidValue, formatCurrency(results.liquid));
         }
 
@@ -122,6 +176,16 @@
 
         btnSinIva.addEventListener('click', function () {
             applyIva = false;
+            updateUI();
+        });
+
+        btnModeInverse.addEventListener('click', function () {
+            mode = 'inverse';
+            updateUI();
+        });
+
+        btnModeNormal.addEventListener('click', function () {
+            mode = 'normal';
             updateUI();
         });
 
